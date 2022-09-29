@@ -5,8 +5,8 @@ Documentation        Aqui neste arquivo estaram presentes todos os tipos de
 Library              SeleniumLibrary
 Library              DebugLibrary
 
-Test Setup           Abrir o meu navegador
-Test Teardown        Fechar navegador
+Suite Setup           Abrir o meu navegador
+Suite Teardown        Fechar navegador
 
 
 
@@ -36,15 +36,44 @@ Cenario: Validando cadastro com sucesso no learningprime
     Então devo ser direcionado para a tela home do site
     E a seguinte mensagem deve ser apresentada    Bem vindo! Seu cadastro foi feito com sucesso.
 
+Cenario: Validar login com senha incorreta
+    [Tags]        SUITE
+    Dado que eu esteja na tela de login
+    Quando informar uma senha incorreta
+    Então a mensagem "Email ou senha inválida." deve ser apresentada
+
+Cenario: Validar login com email incorreto
+    [Tags]        SUITE
+    Dado que eu esteja na tela de login
+    Quando informar um email incorreto
+    Então a mensagem "Email ou senha inválida." deve ser apresentada
+
 *** Keywords ***
+Dado que eu esteja na tela de login
+    Wait Until Element Is Visible    xpath=//a[@href='/login']
+    Click Element                    xpath=//a[@href='/login']
+    Wait Until Element Is Visible    xpath=//a[@href='/signup']
+
+Quando informar uma senha incorreta
+    Input Text                       spree_user_email        teste@teste.com.br
+    Input Text                       spree_user_password     123456879
+    Click Element                    xpath=//input[@value='Entrar']
+
+Quando informar um email incorreto
+    Input Text                       spree_user_email        teste@teste.com.br
+    Input Text                       spree_user_password     123456879
+    Click Element                    xpath=//input[@value='Entrar']
+
+Então a mensagem "${MENSAGEM}" deve ser apresentada
+    Element Text Should Be    xpath=//div[@class='flash error']    ${MENSAGEM}
+
+
 ##############################################################################
 #          Cenario: Validando cadastro com sucesso no learningprime          #
 ##############################################################################
 Dado que eu esteja na tela de cadastro
     Wait Until Element Is Visible    xpath=//a[@href='/login']
     Click Element                    xpath=//a[@href='/login']
-
-    Debug
 
     Wait Until Element Is Visible    xpath=//a[@href='/signup']
     Click Element                    xpath=//a[@href='/signup']
