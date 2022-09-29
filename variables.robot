@@ -7,6 +7,7 @@ Library              SeleniumLibrary
 Test Setup           Abrir o meu navegador
 Test Teardown        Fechar navegador
 
+
 *** Variables ***
 #Variável do tipo Simples
 ${NOME}        HELDER FERNANDES DE PAULA
